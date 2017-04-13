@@ -8,8 +8,8 @@ public class Attack1 : AttackCard {
         damage = 1;
     }
 
-    public override bool use(Creature self, Creature opponent)
+    public override bool Use(Creature self, Creature opponent)
     {
-        return opponent.TakeDamage(damage, damageType);
+        return PhysicalAttack(opponent, damage);
     }
 }

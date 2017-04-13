@@ -22,5 +22,10 @@ public abstract class Card
     }
 
     // Creature c1 uses this card against Creature c2
-    public abstract bool use(Creature self, Creature opponent);
+    public abstract bool Use(Creature self, Creature opponent);
+
+    protected bool PhysicalAttack(Creature target, int attack)
+    {
+        return target.TakeDamage(attack, DamageTypes.PHYSICAL);
+    }
 }

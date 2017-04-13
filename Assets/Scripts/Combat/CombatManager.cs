@@ -9,8 +9,9 @@ public enum Turn
 };
 
 public class CombatManager : MonoBehaviour {
-
-    public static CombatManager instance = null;
+    
+    public static GameObject instance = null;
+    public static string instanceName = "CombatManager";
 
     [HideInInspector]
     public Turn thisTurn = Turn.PLAYERSTURN;
@@ -22,16 +23,37 @@ public class CombatManager : MonoBehaviour {
     
 	void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
+        Debug.Log("CombatManager.Awake()");
+        DontDestroyOnLoad(instance);
+        getInstance();
 	}
+
+    public static GameObject getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new GameObject();
+            instance.name = instanceName;
+            instance.AddComponent(typeof(CombatManager));
+        }
+        return instance;
+    }
 
     void Start()
     {
-        player = new Player(20, 2, 2);
-        monster = new Monster("Orc", 20, 0, 2);
+        player = new Player(20, 2, 2, 3);
+        monster = new Monster("Orc", 20, 0, 2, 3);
+
+        initCombat();
+    }
+
+    void initCombat()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            player.AddDeck("Attack1");
+            monster.AddDeck("Attack1");
+        }
     }
 
     public void TakeTurn()
@@ -41,6 +63,7 @@ public class CombatManager : MonoBehaviour {
 
     public void EndTurn(Creature whoends)
     {
+        whoends.DrawHand();
         if (nextTurn == Turn.PLAYERSTURN)
         {
             thisTurn = Turn.PLAYERSTURN;
@@ -56,6 +79,11 @@ public class CombatManager : MonoBehaviour {
     {
         thisTurn = Turn.PLAYERSTURN;
         nextTurn = Turn.MONSTERSTURN;
+
+        player.CreateDeckTemp();
+        monster.CreateDeckTemp();
+        player.DrawHand();
+        monster.DrawHand();
     }
 
     public void BattleEnd()

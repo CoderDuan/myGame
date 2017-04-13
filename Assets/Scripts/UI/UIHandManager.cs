@@ -13,9 +13,7 @@ public class UIHandManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        combatManager = CombatManager.instance;
-        if (combatManager == null)
-            combatManager = new CombatManager();
+        combatManager = CombatManager.getInstance().GetComponent<CombatManager>();
         player = combatManager.player as Player;
 
 	}

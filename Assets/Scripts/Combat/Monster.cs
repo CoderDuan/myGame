@@ -5,8 +5,8 @@ using System.Text;
 
 public class Monster : Creature
 {
-    public Monster(string name, int hp, int mp, int ap)
-        : base(name, hp, mp, ap)
+    public Monster(string name, int hp, int mp, int ap, int handsize)
+        : base(name, hp, mp, ap, handsize)
     {
 
     }
